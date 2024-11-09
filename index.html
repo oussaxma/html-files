@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Changer Couleur, Texte et Rayon</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            margin-top: 50px;
+            background-color: beige;
+        }
+
+        #result {
+            width: 250px;
+            height: 100px;
+            margin: 20px auto;
+            font-size: 1.2em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: border-radius 0.3s ease;
+        }
+
+        input {
+            margin: 5px;
+            padding: 10px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            padding: 12px 50px;
+        }
+
+        .thisIsaDivClass {
+            margin-top: 10px;
+            background-color: rgb(210, 209, 209);
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .thisIsaDivClass button {
+            margin-left: 10px;
+            color: rgb(0, 0, 0);
+            background-color: rgb(187, 188, 188);
+            border: none;
+            cursor: pointer;
+            border-radius: 10px;
+            padding: 10px;
+        }
+
+        .thisIsaDivClass button:hover {
+            background-color: red;
+        }
+
+        
+        .check-icon {
+            margin-right: 10px;
+            font-size: 1.2em;
+            visibility: hidden;
+            transition: visibility 0.3s;
+        }
+
+        
+        .task-text {
+            flex-grow: 1;
+            transition: text-decoration 0.3s;
+        }
+
+        .thisIsaDivClass.checked {
+            background-color: #464846;
+        }
+
+        .thisIsaDivClass.checked .check-icon {
+            visibility: visible;
+        }
+
+        .thisIsaDivClass.checked .task-text {
+            text-decoration: line-through;
+        }
+    </style>
+</head>
+<body>
+    <section id="container">
+        <div id="result">My To Do List</div>
+        <input type="text" id="textInput" placeholder="Entrez le texte">
+        <button onclick="addNewDiv()">Add</button>
+    </section>
+
+    <script>
+        let track = 1;
+
+        function addNewDiv() {
+            const section = document.getElementById('container');
+            const newDiv = document.createElement("div");
+            newDiv.classList.add("thisIsaDivClass");
+            newDiv.id = `newDiv${track}`;
+
+            const checkIcon = document.createElement("span");
+            checkIcon.classList.add("check-icon");
+            checkIcon.innerHTML = "✔️";
+
+            const taskText = document.createElement("span");
+            taskText.classList.add("task-text");
+            taskText.innerText = document.getElementById('textInput').value;
+
+            track++;
+
+            const btn = document.createElement("button");
+            btn.innerText = "Delete";
+            btn.setAttribute("onclick", "deleteText(this)");
+
+            
+            newDiv.addEventListener("click", function() {
+                this.classList.toggle("checked");
+            });
+
+            newDiv.appendChild(checkIcon);
+            newDiv.appendChild(taskText);
+            newDiv.appendChild(btn);
+            section.appendChild(newDiv);
+        }
+
+        function deleteText(elem) {
+            elem.parentElement.remove();
+        }
+    </script>
+</body>
+</html>

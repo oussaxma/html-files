@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Money Distributor</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .cart {
+            width: 350px;
+            padding: 20px;
+            background-color: #2ca311;
+            border-radius: 15px;
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .cart img {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            width: 60px;
+            height: auto;
+        }
+
+        .cart p {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .cart input {
+            width: calc(100% - 20px);
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border: 2px solid #ccc;
+            font-size: 1rem;
+            color: #333;
+            background-color: #fff;
+            box-sizing: border-box;
+        }
+
+        .cart input.invalid {
+            border-color: red;
+        }
+
+        .cart input:focus {
+            outline: none;
+            border-color: #4caf50;
+        }
+
+        .cart input::placeholder {
+            color: #888;
+        }
+
+        #money {
+            text-align: center;
+        }
+
+        #money input {
+            width: 80%;
+            padding: 12px;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border: 2px solid #4caf50;
+            background-color: #fff;
+        }
+
+        #money button {
+            width: 100%;
+            padding: 12px;
+            background-color: #4caf50;
+            color: white;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #money button:hover {
+            background-color: #45a049;
+        }
+
+        .result {
+            width: 350px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            display: none;
+            margin-top: 20px;
+        }
+
+        .thisIsaDivclass {
+            padding: 10px;
+            background-color: #f9f9f9;
+            margin-top: 10px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        .thisIsaDivclass p {
+            color: #333;
+            margin: 0;
+        }
+
+        .thisIsaDivclass:last-child {
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>ATM</h1>
+        <section class="cart">
+            <p id="header">Aspire</p>
+            <input type="text" id="numberInput" placeholder="Card Number">
+            <input type="text" id="expireInput" placeholder="Expire Date (MM/YY)">
+            <input type="text" id="cvvInput" placeholder="CVV">
+            <img class="fitter" src="Downloads/pngegg.png" alt="Visa Logo">
+        </section>
+        <section id="money">
+            <input type="text" id="moneyInput" placeholder="Amount in $">
+            <button onclick="addNewDiv()">Get My Money</button>
+        </section>
+
+        <section id="resultSection" class="result">
+            <div id="resultDiv"></div>
+        </section>
+    </div>
+
+<script>
+    
+    const validCardNumber = "16052004";
+    const validExpireDate = "05/25";
+    const validCVV = "007";
+
+    function addNewDiv() {
+        const cardNumber = document.getElementById('numberInput');
+        const expireDate = document.getElementById('expireInput');
+        const cvv = document.getElementById('cvvInput');
+        const amount = parseInt(document.getElementById('moneyInput').value);
+        const resultDiv = document.getElementById('resultDiv');
+        const resultSection = document.getElementById('resultSection');
+
+       
+        cardNumber.style.borderColor = '#ccc';
+        expireDate.style.borderColor = '#ccc';
+        cvv.style.borderColor = '#ccc';
+
+        if (cardNumber.value !== validCardNumber) {
+            cardNumber.style.borderColor = 'red';
+            alert('Invalid card number! Enter the correct information.');
+            return;
+        }
+
+        if (expireDate.value !== validExpireDate) {
+            expireDate.style.borderColor = 'red';
+            alert('Invalid expiration date! Enter the correct information.');
+            return;
+        }
+
+        if (cvv.value !== validCVV) {
+            cvv.style.borderColor = 'red';
+            alert('Invalid CVV! Enter the correct information.');
+            return;
+        }
+
+        resultDiv.innerHTML = ''; 
+
+        if (isNaN(amount) || amount <= 0) {
+            alert('Enter a valid amount.');
+            return;
+        }
+
+        resultSection.style.display = 'block'; 
+
+        const denominations = [500, 100, 50, 20, 10, 1];
+        let remainingAmount = amount;
+
+        denominations.forEach(denomination => {
+            if (remainingAmount >= denomination) {
+                const billCount = Math.floor(remainingAmount / denomination);
+                remainingAmount -= billCount * denomination;
+                const div = document.createElement('div');
+                div.classList.add('thisIsaDivclass');
+                div.innerHTML = `You got ${billCount} bills of ${denomination} $`;
+                resultDiv.appendChild(div);
+            }
+        });
+    }
+</script>    
+</body>
+</html>

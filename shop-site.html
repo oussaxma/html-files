@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopify</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        h3 {
+            color: #555;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            max-width: 1000px;
+            margin-bottom: 20px;
+        }
+
+        .product-card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 5px;
+            width: 200px;
+            text-align: center;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 3px;
+            margin-top: 10px;
+            gap: 5px;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: #0057b4;
+        }
+
+        .delete-button {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 3px;
+            margin-left: 5px;
+        }
+
+        .delete-button:hover {
+            background-color: darkred;
+        }
+
+        #cart {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 15px;
+            width: 200px;
+            border-radius: 5px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .cart-item img {
+            width: 40px;
+            height: auto;
+            margin-right: 10px;
+            border-radius: 5px;
+            object-fit: cover;
+        }
+
+        #total-price {
+            color: rgb(30, 197, 0);
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            align-items: center;
+            justify-content: center;
+        }
+
+       
+      
+
+        .modal-dialog {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .modal-header {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .modal-body input {
+            width: 100%;
+            padding: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .modal-footer button {
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .modal-footer .close-btn {
+            background-color: #ff0000;
+        }
+
+        .modal-footer .submit-btn {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .modal-footer .close-btn:hover {
+            background-color: #be1818;
+        }
+
+        .modal-footer .submit-btn:hover {
+            background-color: #218838;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+    </style>
+</head>
+<body>
+<h1>Welcome to our shop</h1>
+
+<div id="cart">
+    <h3>Cart</h3>
+    <div id="total-price">Total: 0 DA</div>
+    <div id="cart-items"><p>Your cart is empty!</p></div>
+</div>
+
+<div class="container" id="product-container">
+    <div class="product-card">
+        <img src="Downloads/pngegg.png" alt="Tablt Stand">
+        <h3>Tablt Stand</h3>
+        <p>Price: 1000DA</p>
+        <button onclick="addToCart('Tablt Stand',1000,'Downloads/pngegg.png')">Add to Cart</button>
+    </div>
+    <div class="product-card">
+        <img src="Downloads/pngegg.png" alt="Face Wash">
+        <h3>Face Wash</h3>
+        <p>Price: 2000DA</p>
+        <button onclick="addToCart('Face Wash',2000,'Downloads/pngegg.png')">Add to Cart</button>
+    </div>
+    <div class="product-card">
+        <img src="Downloads/pngegg.png" alt="Smart Lamp">
+        <h3>Smart Lamp</h3>
+        <p>Price: 3000DA</p>
+        <button onclick="addToCart('Smart Lamp',3000,'Downloads/pngegg.png')">Add to Cart</button>
+    </div>
+</div>
+
+<button type="button" class="btn btn-info btn-lg" onclick="openModal()">Add Product</button>
+
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-header">
+            <h4>Add New Product</h4>
+        </div>
+        <div class="modal-body">
+            <form id="add-product-form" onsubmit="addNewProduct(event)">
+                <label for="product-name">Product Name:</label>
+                <input type="text" id="product-name" required>
+                
+                <label for="product-price">Price (DA):</label>
+                <input type="number" id="product-price" required>
+                
+                <label for="product-image">Image link:</label>
+                <input type="text" id="product-image" required>
+
+                <button type="submit" class="submit-btn">Add Product</button>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="close-btn" onclick="closeModal()">Close</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    let cart = {};
+
+    function addToCart(name, price, image) {
+        if (!cart[name]) {
+            cart[name] = { price: price, quantity: 1, image: image };
+        } else {
+            cart[name].quantity++;
+        }
+        updateCart();
+    }
+
+    function updateCart() {
+        let cartItems = document.getElementById("cart-items");
+        let totalPrice = document.getElementById("total-price");
+        cartItems.innerHTML = "";
+
+        let total = 0;
+        for (let item in cart) {
+            let cartItem = document.createElement("div");
+            cartItem.classList.add("cart-item");
+
+            let img = document.createElement("img");
+            img.src = cart[item].image;
+            cartItem.appendChild(img);
+
+            let itemName = document.createElement("span");
+            itemName.textContent = `${item} - [ ${cart[item].quantity} ]`;
+            cartItem.appendChild(itemName);
+
+            let minusButton = document.createElement("button");
+            minusButton.textContent = "-";
+            minusButton.onclick = () => changeQuantity(item, -1);
+            cartItem.appendChild(minusButton);
+
+            let plusButton = document.createElement("button");
+            plusButton.textContent = "+";
+            plusButton.onclick = () => changeQuantity(item, 1);
+            cartItem.appendChild(plusButton);
+
+            let deleteButton = document.createElement("button");
+            deleteButton.textContent = "Remove";
+            deleteButton.classList.add("delete-button");
+            deleteButton.onclick = () => removeItemFromCart(item);
+            cartItem.appendChild(deleteButton);
+
+            cartItems.appendChild(cartItem);
+
+            total += cart[item].price * cart[item].quantity;
+        }
+
+        totalPrice.textContent = `Total: ${total} DA`;
+    }
+
+    function changeQuantity(name, amount) {
+        if (cart[name]) {
+            cart[name].quantity += amount;
+            if (cart[name].quantity <= 0) {
+                delete cart[name];
+            }
+            updateCart();
+        }
+    }
+
+    function removeItemFromCart(name) {
+        delete cart[name];
+        updateCart();
+    }
+
+    function openModal() {
+        document.getElementById('myModal').classList.add('show');
+    }
+
+    function closeModal() {
+        document.getElementById('myModal').classList.remove('show');
+    }
+
+    function addNewProduct(event) {
+        event.preventDefault();
+
+        let name = document.getElementById("product-name").value;
+        let price = parseFloat(document.getElementById("product-price").value);
+        let image = document.getElementById("product-image").value;
+
+        let newProductCard = document.createElement("div");
+        newProductCard.classList.add("product-card");
+
+        let newImg = document.createElement("img");
+        newImg.src = image;
+        newProductCard.appendChild(newImg);
+
+        let newTitle = document.createElement("h3");
+        newTitle.textContent = name;
+        newProductCard.appendChild(newTitle);
+
+        let newPrice = document.createElement("p");
+        newPrice.textContent = `Price: ${price} DA`;
+        newProductCard.appendChild(newPrice);
+
+        let newButton = document.createElement("button");
+        newButton.textContent = "Add to Cart";
+        newButton.onclick = function() {
+            addToCart(name, price, image);
+        };
+        newProductCard.appendChild(newButton);
+
+        document.getElementById("product-container").appendChild(newProductCard);
+
+        closeModal();
+    }
+</script>
+
+</body>
+</html>

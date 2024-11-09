@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Random Quote</title>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #c3c1c1;
+      }
+      
+      #quote-box {
+        text-align: center;
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 1px 4px 8px rgba(5, 1, 255, 0.2);
+        max-width: 400px;
+      }
+
+      #quote {
+        font-size: 30px;
+        color: #333;
+        margin-bottom: 5px;
+      }
+
+      #author {
+        color: gray;
+        margin-top: 5px;
+      }
+
+      button {
+        margin-top: 20px;
+        padding: 10px 20px;
+        font-size: 16px;
+        color: #fff;
+        background-color: #007bff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      button:hover {
+        background-color: #0056b3;
+      }
+
+      button:active {
+        transform: scale(0.95); 
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="quote-box">
+      <div id="quote">Click to get a quote</div>
+      <div id="author">Author: Unknown</div>
+      <button onclick="showQuote()">Show Random Quote</button>
+    </div>
+
+    <script>
+      const quotes = [
+        { text: "Believe in yourself.",                author: "John Doe" },
+        { text: "Every day is a new beginning.",       author: "Jane Smith" },
+        { text: "Dream big, work hard.",               author: "Albert Johnson" },
+        { text: "Keep going, you are doing great!",    author: "Lisa Wong" },
+        { text: "Success is the result of hard work.", author: "Michael Lee" }
+      ];
+
+      function showQuote() {
+        const randomIndex = Math.floor(Math.random() * quotes.length);
+        const selectedQ = quotes[randomIndex];
+
+        document.getElementById('quote')
+        quote.textContent = selectedQ.text;
+        document.getElementById('author')
+        author.textContent =selectedQ.author ;
+      }
+    </script>
+  </body>
+</html>
+
+
+       

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                background-color: bisque;
+            }
+            .my {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 80px;
+            }
+            #myDiv {
+                width: 100px;
+                height: 100px;
+                background-color: red;
+                border-radius: 5px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 1.5rem;
+                transition: all 300ms ease-in-out;
+                cursor: pointer;
+            }
+            #myDiv1 {
+                width: 100px;
+                height: 100px;
+                background-color: rgb(0, 238, 255);
+                border-radius: 5px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 1.5rem;
+                transition: all 300ms ease-in-out;
+                cursor: pointer;
+            }
+            #myDiv2 {
+                width: 100px;
+                height: 100px;
+                background-color: rgb(253, 248, 0);
+                border-radius: 5px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 1.5rem;
+                transition: all 300ms ease-in-out;
+                cursor: pointer;
+            }
+          
+            .first {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            button {
+                padding: 10px 15px;
+                background-color: green;
+                border-radius: 20px;
+                border: none;
+                margin: 50px;
+                transition: all 300ms ease-out;
+                display: flex;
+            }
+            button:hover {
+                cursor: pointer;
+                transform: scale(1.2);
+            }
+        </style>
+    </head>
+    <body>
+        <section class="my">
+            <div id="myDiv">hello</div>
+            <div id="myDiv1">salut</div>
+            <div id="myDiv2">marhaba</div>
+        </section>
+        <div class="first">
+            <button onclick="change()">Click me</button>
+            <button onclick="change1()">Click me1</button>
+            <button onclick="change2()">Click me2</button>
+        </div>
+        <div class="counter-container">
+            <div  id="counter">0</div>
+            <div class="buttons">
+                <button onclick="changeCounter(1)">Add</button>
+                <button onclick="changeCounter(-1)">Dec</button>
+                <button onclick="changeCounter(0)">zero</button>
+            </div>
+        </div>
+      
+        <div id="quote">Click the button to get a quote</div>
+        <button onclick="showQuote()">choose quote</button>
+
+        <script>
+            
+            function change() {
+                if (myDiv.style.backgroundColor =='red') {
+                    myDiv.style.backgroundColor = 'blue';
+                    myDiv.textContent = 'world';
+                    myDiv.style.borderRadius = '20px';
+                    myDiv.style.width= '100px'
+                } else {
+                    myDiv.style.backgroundColor = 'red';
+                    myDiv.textContent = 'hello';
+                    myDiv.style.borderRadius = '5px';
+                    myDiv.style.width= '200px'
+                }
+            }
+
+            function change1() {
+                if (myDiv1.style.backgroundColor == 'rgb(0, 238, 255)') {
+                    myDiv1.style.backgroundColor = 'green';
+                    myDiv1.textContent = 'monde';
+                    myDiv1.style.borderRadius = '30px';
+                    myDiv1.style.width= '100px'
+
+                } else {
+                    myDiv1.style.backgroundColor = 'rgb(0, 238, 255)';
+                    myDiv1.textContent = 'salut';
+                    myDiv1.style.borderRadius = '5px';
+                    myDiv1.style.width= '400px'
+                }
+            }
+
+            function change2() {
+                if (myDiv2.style.backgroundColor == 'rgb(253, 248, 0)') {
+                    myDiv2.style.backgroundColor = 'purple';
+                    myDiv2.textContent = '3alam';
+                    myDiv2.style.borderRadius = '40px';
+                    myDiv2.style.width= '100px'
+                } else {
+                    myDiv2.style.backgroundColor = 'rgb(253, 248, 0)';
+                    myDiv2.textContent = 'marhaba';
+                    myDiv2.style.borderRadius = '5px';
+                    myDiv2.style.width= '200px'
+                }
+            }
+            let count = 0;
+
+            function changeCounter(value) {
+            if (value == 0) {
+            count = 0; 
+            }
+             else {
+            count = value + count;
+            }
+            document.getElementById('counter')
+            counter.textContent = count;
+            }
+            
+            function showQuote() {
+        const quotes = [
+          "Believe in yourself.",
+          "Every day is a new beginning.",
+          "Dream big, work hard.",
+          "Keep going, you are doing great!",
+          "Success is the result of hard work."
+        ];
+        
+        let random = Math.floor(Math.random() * quotes.length);
+        
+
+        for (let i = 0; i < quotes.length; i++) {
+          if (i == random) {
+            selectedQ = quotes[i];
+          }
+        }
+
+        document.getElementById('quote')
+        quote.textContent = selectedQ;
+      }
+
+            
+        </script>
+    </body>
+</html>

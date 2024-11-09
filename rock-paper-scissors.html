@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors Game</title>
+    <style>
+        
+        @keyframes gradientBackground {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.3); color: #ff6b6b; }
+        }
+
+       
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #00d2ff, #3a7bd5);
+            background-size: 200% 200%;
+            animation: gradientBackground 10s ease infinite;
+            overflow: hidden;
+            color: #333;
+        }
+
+        
+        .game-container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.3);
+            width: 350px;
+            position: relative;
+        }
+
+        .game-container h1 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .player-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .player {
+            width: 45%;
+            padding: 15px;
+            background: #f0f0f0;
+            border-radius: 80px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            font-weight: bold;
+            
+        }
+
+        
+        .options {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+
+        .option {
+            cursor: pointer;
+            border: 2px solid #ddd;
+            border-radius: 50%;
+            overflow: hidden;
+            width: 80px;
+            height: 80px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+
+        .option img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .option:hover {
+            transform: scale(1.2);
+            box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        #result {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 15px;
+            color: #333;
+            animation: bounce 0.5s ease-in-out;
+        }
+
+        .score-board {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            font-size: 18px;
+            color: #333;
+        }
+
+       
+        .modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.3);
+            width: 300px;
+            padding: 20px;
+            text-align: center;
+            display: none;
+        }
+
+        .modal button {
+            background: #00d2ff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .modal button:hover {
+            background: #00a2d2;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="game-container">
+        <h1>Rock Paper Scissors</h1>
+
+        <div class="player-section">
+            <div class="player" id="computer">
+                <h2>Computer</h2>
+                <p id="computer-choice">Waiting...</p>
+            </div>
+            <div class="player" id="user">
+                <h2>You</h2>
+                <p id="user-choice">Choose an option</p>
+            </div>
+        </div>
+        
+        <div class="options">
+            <div class="option" onclick="play('rock')">
+                <img src="Downloads/rock.jpg" alt="Rock">
+            </div>
+            <div class="option" onclick="play('paper')">
+                <img src="Downloads/paper.jpeg" alt="Paper">
+            </div>
+            <div class="option" onclick="play('scissors')">
+                <img src="Downloads/scissors.jpg" alt="Scissors">
+            </div>
+        </div>
+
+        <div id="result"></div>
+        <div class="score-board">
+            <div>Player Score: <span id="player-score">0</span></div>
+            <div>Computer Score: <span id="computer-score">0</span></div>
+        </div>
+    </div>
+
+   
+    <div class="modal" id="game-end-modal">
+        <h2 id="end-message"></h2>
+        <button onclick="resetGame()">Play Again</button>
+    </div>
+
+    <script>
+        let playerScore = 0;
+        let computerScore = 0;
+
+        function play(userChoice) {
+            const choices = ['rock', 'paper', 'scissors'];
+            const computerChoice = choices[Math.floor(Math.random() * choices.length)];
+            let result = '';
+
+            document.getElementById('user-choice').innerText = userChoice.charAt(0).toUpperCase() + userChoice.slice(1);
+            document.getElementById('computer-choice').innerText = computerChoice.charAt(0).toUpperCase() + computerChoice.slice(1);
+
+            if (userChoice == computerChoice) {
+                result = "It's a draw!";
+            } else if (
+                (userChoice == 'rock' && computerChoice == 'scissors') ||       
+                (userChoice == 'paper' && computerChoice == 'rock') ||
+                (userChoice == 'scissors' && computerChoice == 'paper')
+            ) {
+                result = "You win!";
+                playerScore++;
+            } else {
+                result = "You lose!";
+                computerScore++;
+            }
+
+            document.getElementById('result').innerText = result;
+            document.getElementById('player-score').innerText = playerScore;
+            document.getElementById('computer-score').innerText = computerScore;
+
+            if (playerScore == 5 || computerScore == 5) {
+                endGame();
+            }
+        }
+
+        function endGame() {
+            const modal = document.getElementById('game-end-modal');
+            const endMessage = document.getElementById('end-message');
+            endMessage.innerText = playerScore == 5 ? "Congratulations, you won!" : "You lost! Try again?";
+            modal.style.display = 'block';
+        }
+
+        function resetGame() {
+            playerScore = 0;
+            computerScore = 0;
+            document.getElementById('player-score').innerText = playerScore;
+            document.getElementById('computer-score').innerText = computerScore;
+            document.getElementById('result').innerText = '';
+            document.getElementById('user-choice').innerText = 'Choose an option';
+            document.getElementById('computer-choice').innerText = 'Waiting...';
+            document.getElementById('game-end-modal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
